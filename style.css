@@ -23,10 +23,32 @@
     text-align: right;
 }
 
-#img-howto {
+#howto-area {
     position: absolute;
-    bottom: 200px;
-    left: 360px;
+    top: 300px;
+    left: 400px;
+    display: inline-block;
+    text-align: right;
+}
+
+#howto-area table {
+    width: 100%;
+    border-collapse: collapse;
+    color: black;
+    font-size: large;
+    text-align: center;
+}
+
+#howto-area th{
+    border:solid 5px white;
+    padding: 10px;
+    background: #d7986e;
+}
+
+#howto-area td{
+    border:solid 5px white;
+    padding: 10px;
+    background: #6e8fd7;
 }
 
 #start-btn {
