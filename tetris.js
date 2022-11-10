@@ -149,6 +149,7 @@ class Game {
 
         this.nextMino.drawNext(this.nextCtx)
         this.mino.draw(this.mainCtx)
+        this.scoreArea.textContent = String(this.score);
     }
 
     /**
@@ -165,7 +166,7 @@ class Game {
                 e.y += this.mino.y
             })
             this.field.blocks = this.field.blocks.concat(this.mino.blocks)
-            this.field.checkLine()
+            this.score += this.field.checkLine() * 100;
             this.popMino()
         }
         this.drawAll();
@@ -438,15 +439,19 @@ class Field {
 
     /**
      * check to see if the blocks are lined up horizontally
+     * return number of cleard line
      */
     checkLine() {
+        var count = 0;
         for (var r = 0; r < ROWS_COUNT; r++) {
             var c = this.blocks.filter(block => block.y === r).length
             if (c === COLS_COUNT) {
+                count++;
                 this.blocks = this.blocks.filter(block => block.y !== r)
                 this.blocks.filter(block => block.y < r).forEach(upper => upper.y++)
             }
         }
+        return count;
     }
 
     /**
