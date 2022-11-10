@@ -1,6 +1,7 @@
 const SATRT_BTN_ID = "start-btn";
 const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
+const SCORE_AREA_ID = "score-area";
 const DROP_INTERVAL = 1000;
 const GAME_SPEED = 500;
 const BLOCK_SIZE = 32;
@@ -68,8 +69,9 @@ class Game {
      * init canvas objects
      */
     constructor() {
-        this.initMainCanvas()
-        this.initNextCanvas()
+        this.initMainCanvas();
+        this.initNextCanvas();
+        this.initScoreArea();
     }
 
     /**
@@ -92,6 +94,15 @@ class Game {
         this.nextCanvas.width = NEXT_AREA_SIZE
         this.nextCanvas.height = NEXT_AREA_SIZE;
         this.nextCanvas.style.border = "4px solid #555";
+    }
+
+    /**
+     * init score area
+     */
+    initScoreArea(){
+        this.score = 0;
+        this.scoreArea = document.getElementById(SCORE_AREA_ID);
+        this.scoreArea.textContent = String(this.score);
     }
 
     /**
