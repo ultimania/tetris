@@ -10,7 +10,10 @@ const ROWS_COUNT = 20;
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
 const KEY_DOWN = 40;
+const KEY_CTRL = 17;
 const KEY_SPACE = 32;
+const CLOCKWISE = 1;
+const ANTICLOCKWISE = 2;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 const NEXT_AREA_SIZE = 160;
@@ -103,7 +106,7 @@ class Game {
     /**
      * init score area
      */
-    initScoreArea(){
+    initScoreArea() {
         this.score = 0;
         this.scoreArea = document.getElementById(SCORE_AREA_ID);
         this.scoreArea.textContent = String(this.score);
@@ -181,7 +184,7 @@ class Game {
      * 
      * @param {*} moveX  next x-coordinate
      * @param {*} moveY  next y-coordinate
-     * @param {*} rot  is rotate action ?
+     * @param {*} rot  is rotate action
      * @returns 
      */
     valid(moveX, moveY, rot = 0) {
@@ -209,33 +212,54 @@ class Game {
                     }
                     break;
                 case KEY_RIGHT:
-                    if (this.valid(1, 0)){
-                        this.mino.x++;  
-                    } 
+                    if (this.valid(1, 0)) {
+                        this.mino.x++;
+                    }
                     break;
                 case KEY_DOWN:
                     if (this.valid(0, 1)) {
                         this.mino.y++;
                     }
                     break;
-                case KEY_SPACE:
-                    if (this.valid(0, 0, 1)) {
-                        this.mino.rotate();
+                case KEY_CTRL: // clockwise
+                    if (this.valid(0, 0, CLOCKWISE)) {
+                        this.mino.rotate(CLOCKWISE);
                     }
-                    else if (this.valid(-1, 0, 1)) {
-                        this.mino.rotate();
+                    else if (this.valid(-1, 0, CLOCKWISE)) {
+                        this.mino.rotate(CLOCKWISE);
                         this.mino.x--;
                     }
-                    else if (this.valid(1, 0, 1)) {
-                        this.mino.rotate();
+                    else if (this.valid(1, 0, CLOCKWISE)) {
+                        this.mino.rotate(CLOCKWISE);
                         this.mino.x++;
                     }
-                    else if (this.valid(-2, 0, 1)) {
-                        this.mino.rotate();
+                    else if (this.valid(-2, 0, CLOCKWISE)) {
+                        this.mino.rotate(CLOCKWISE);
                         this.mino.x = this.mino.x - 2;
                     }
-                    else if (this.valid(2, 0, 1)) {
-                        this.mino.rotate();
+                    else if (this.valid(2, 0, CLOCKWISE)) {
+                        this.mino.rotate(CLOCKWISE);
+                        this.mino.x = this.mino.x + 2;
+                    }
+                    break;
+                case KEY_SPACE: // anticlockwise
+                    if (this.valid(0, 0, ANTICLOCKWISE)) {
+                        this.mino.rotate(ANTICLOCKWISE);
+                    }
+                    else if (this.valid(-1, 0, ANTICLOCKWISE)) {
+                        this.mino.rotate(ANTICLOCKWISE);
+                        this.mino.x--;
+                    }
+                    else if (this.valid(1, 0, ANTICLOCKWISE)) {
+                        this.mino.rotate(ANTICLOCKWISE);
+                        this.mino.x++;
+                    }
+                    else if (this.valid(-2, 0, ANTICLOCKWISE)) {
+                        this.mino.rotate(ANTICLOCKWISE);
+                        this.mino.x = this.mino.x - 2;
+                    }
+                    else if (this.valid(2, 0, ANTICLOCKWISE)) {
+                        this.mino.rotate(ANTICLOCKWISE);
                         this.mino.x = this.mino.x + 2;
                     }
                     break;
@@ -404,12 +428,20 @@ class Mino {
     /**
      * rotate Mino
      */
-    rotate() {
-        this.blocks.forEach(block => {
-            let oldX = block.x
-            block.x = block.y
-            block.y = 3 - oldX
-        })
+    rotate(direction = CLOCKWISE) {
+        if (direction == CLOCKWISE) {
+            this.blocks.forEach(block => {
+                let oldX = block.x
+                block.x = block.y
+                block.y = 3 - oldX
+            });
+        } else {
+            this.blocks.forEach(block => {
+                let oldY = block.y
+                block.y = block.x
+                block.x = 3 - oldY
+            });
+        }
     }
 
     /**
@@ -426,10 +458,14 @@ class Mino {
             return new Block(block.x, block.y)
         })
         newBlocks.forEach(block => {
-            if (rot) {
+            if (rot == CLOCKWISE) {
                 let oldX = block.x
                 block.x = block.y
                 block.y = 3 - oldX
+            } else if (rot == ANTICLOCKWISE) {
+                let oldY = block.y
+                block.y = block.x
+                block.x = 3 - oldY
             }
 
             if (moveX || moveY) {
