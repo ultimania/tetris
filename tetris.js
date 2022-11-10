@@ -7,6 +7,10 @@ const GAME_SPEED = 500;
 const BLOCK_SIZE = 32;
 const COLS_COUNT = 10;
 const ROWS_COUNT = 20;
+const KEY_LEFT = 37;
+const KEY_RIGHT = 39;
+const KEY_DOWN = 40;
+const KEY_SPACE = 32;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 const NEXT_AREA_SIZE = 160;
@@ -194,22 +198,46 @@ class Game {
     }
 
     /**
-     * the event handler of button
+     * the key press event handler
      */
     setKeyEvent() {
         document.onkeydown = function (e) {
             switch (e.keyCode) {
-                case 37: // 左
-                    if (this.valid(-1, 0)) this.mino.x--;
+                case KEY_LEFT:
+                    if (this.valid(-1, 0)) {
+                        this.mino.x--;
+                    }
                     break;
-                case 39: // 右
-                    if (this.valid(1, 0)) this.mino.x++;
+                case KEY_RIGHT:
+                    if (this.valid(1, 0)){
+                        this.mino.x++;  
+                    } 
                     break;
-                case 40: // 下
-                    if (this.valid(0, 1)) this.mino.y++;
+                case KEY_DOWN:
+                    if (this.valid(0, 1)) {
+                        this.mino.y++;
+                    }
                     break;
-                case 32: // スペース
-                    if (this.valid(0, 0, 1)) this.mino.rotate();
+                case KEY_SPACE:
+                    if (this.valid(0, 0, 1)) {
+                        this.mino.rotate();
+                    }
+                    else if (this.valid(-1, 0, 1)) {
+                        this.mino.rotate();
+                        this.mino.x--;
+                    }
+                    else if (this.valid(1, 0, 1)) {
+                        this.mino.rotate();
+                        this.mino.x++;
+                    }
+                    else if (this.valid(-2, 0, 1)) {
+                        this.mino.rotate();
+                        this.mino.x = this.mino.x - 2;
+                    }
+                    else if (this.valid(2, 0, 1)) {
+                        this.mino.rotate();
+                        this.mino.x = this.mino.x + 2;
+                    }
                     break;
             }
             this.drawAll()
@@ -398,15 +426,15 @@ class Mino {
             return new Block(block.x, block.y)
         })
         newBlocks.forEach(block => {
-            if (moveX || moveY) {
-                block.x += moveX
-                block.y += moveY
-            }
-
             if (rot) {
                 let oldX = block.x
                 block.x = block.y
                 block.y = 3 - oldX
+            }
+
+            if (moveX || moveY) {
+                block.x += moveX
+                block.y += moveY
             }
 
             block.x += this.x
