@@ -10,9 +10,15 @@
     left: 400px;
 }
 
-#score-area {
+#hold-canvas {
     position: absolute;
     top: 200px;
+    left: 400px;
+}
+
+#score-area {
+    position: absolute;
+    top: 400px;
     left: 400px;
     display: inline-block;
     width: 150px;
@@ -25,8 +31,8 @@
 
 #howto-area {
     position: absolute;
-    top: 300px;
-    left: 400px;
+    top: 700px;
+    left: 0px;
     display: inline-block;
     text-align: right;
 }

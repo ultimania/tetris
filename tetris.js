@@ -1,6 +1,7 @@
 const SATRT_BTN_ID = "start-btn";
 const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
+const HOLD_CANVAS_ID = "hold-canvas";
 const SCORE_AREA_ID = "score-area";
 const DROP_INTERVAL = 1000;
 const GAME_SPEED = 500;
@@ -12,6 +13,7 @@ const KEY_RIGHT = 39;
 const KEY_DOWN = 40;
 const KEY_CTRL = 17;
 const KEY_SPACE = 32;
+const KEY_SHIFT = 16;
 const CLOCKWISE = 1;
 const ANTICLOCKWISE = 2;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
@@ -78,6 +80,7 @@ class Game {
     constructor() {
         this.initMainCanvas();
         this.initNextCanvas();
+        this.initHoldCanvas();
         this.initScoreArea();
     }
 
@@ -101,6 +104,17 @@ class Game {
         this.nextCanvas.width = NEXT_AREA_SIZE
         this.nextCanvas.height = NEXT_AREA_SIZE;
         this.nextCanvas.style.border = "4px solid #555";
+    }
+
+    /**
+     * init hold canvas object
+     */
+    initHoldCanvas() {
+        this.holdCanvas = document.getElementById(HOLD_CANVAS_ID);
+        this.holdCtx = this.holdCanvas.getContext("2d");
+        this.holdCanvas.width = NEXT_AREA_SIZE
+        this.holdCanvas.height = NEXT_AREA_SIZE;
+        this.holdCanvas.style.border = "4px solid #555";
     }
 
     /**
@@ -136,6 +150,8 @@ class Game {
         this.mino = this.nextMino ?? new Mino()
         this.mino.spawn()
         this.nextMino = new Mino()
+        // reset holding
+        this.holding = false
 
         // judge the game is over
         if (!this.valid(0, 1)) {
@@ -177,6 +193,26 @@ class Game {
             this.popMino()
         }
         this.drawAll();
+    }
+
+    /**
+     *  hold mino processing
+     */
+    hold() {
+        if (!this.holding) {
+            if (!this.holdMino) {
+                this.holdMino = this.mino;
+                this.popMino();
+            } else {
+                var tempMino = this.holdMino;
+                this.holdMino = this.mino;
+                this.mino = tempMino;
+                this.mino.spawn();
+            }
+            this.holding = true;
+            this.holdCtx.clearRect(0, 0, NEXT_AREA_SIZE, NEXT_AREA_SIZE)
+            this.holdMino.drawHold(this.holdCtx)
+        }
     }
 
     /**
@@ -263,6 +299,9 @@ class Game {
                         this.mino.x = this.mino.x + 2;
                     }
                     break;
+                case KEY_SHIFT: // hold
+                    this.hold();
+                    break;
             }
             this.drawAll()
         }.bind(this)
@@ -329,6 +368,39 @@ class Block {
      * @param {*} ctx 
      */
     drawNext(ctx) {
+        let offsetX = 0
+        let offsetY = 0
+        switch (this.type) {
+            case 0:
+                offsetX = 0.5
+                offsetY = 0
+                break;
+            case 1:
+                offsetX = 0.5
+                offsetY = 0.5
+                break;
+            default:
+                offsetX = 1
+                offsetY = 0.5
+                break;
+        }
+
+        ctx.drawImage(
+            this.image,
+            (this.x + offsetX) * BLOCK_SIZE,
+            (this.y + offsetY) * BLOCK_SIZE,
+            BLOCK_SIZE,
+            BLOCK_SIZE
+        )
+    }
+
+    /**
+     * draw hold Mino
+     * adjust margins for each type and display in the center
+     * 
+     * @param {*} ctx 
+     */
+     drawHold(ctx) {
         let offsetX = 0
         let offsetY = 0
         switch (this.type) {
@@ -422,6 +494,17 @@ class Mino {
     drawNext(ctx) {
         this.blocks.forEach(block => {
             block.drawNext(ctx)
+        })
+    }
+
+    /**
+     * draw hold Mino on specified canvas
+     * 
+     * @param {*} ctx 
+     */
+    drawHold(ctx) {
+        this.blocks.forEach(block => {
+            block.drawHold(ctx)
         })
     }
 
