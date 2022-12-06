@@ -1,7 +1,11 @@
+const { COLS_COUNT } = require('./Field')
+const Block = require('./Block')
+const { CLOCKWISE, ANTICLOCKWISE } = require('./Game')
+
 /**
  * a class of Mino
  */
-exports.module = class Mino {
+module.exports = class Mino {
     constructor() {
         this.type = Math.floor(Math.random() * 7);
         this.initBlocks()

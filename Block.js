@@ -1,9 +1,10 @@
-const BLOCK_SIZE = 32;
+const { COLS_COUNT, ROWS_COUNT } = require('./Field')
+module.exports.BLOCK_SIZE = 32;
 
 /**
  * a class of Mino's or Field's Block
  */
-exports.module = class Block {
+module.exports = class Block {
     /**
      * ctor
      * the coordinates from base point
@@ -92,7 +93,7 @@ exports.module = class Block {
      * 
      * @param {*} ctx 
      */
-     drawHold(ctx) {
+    drawHold(ctx) {
         let offsetX = 0
         let offsetY = 0
         switch (this.type) {

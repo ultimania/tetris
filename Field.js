@@ -1,7 +1,10 @@
+module.exports.COLS_COUNT = 10;
+module.exports.ROWS_COUNT = 20;
+
 /**
  * a class of Field
  */
-exports.module = class Field {
+module.exports = class Field {
     /**
      * ctor
      */

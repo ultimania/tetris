@@ -1,20 +1,22 @@
+const Field = require('./Field')
+const Mino = require('./Mino')
+
+const {BLOCK_SIZE} = require('./Block')
+const {COLS_COUNT, ROWS_COUNT} = require('./Field')
+
 const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
 const HOLD_CANVAS_ID = "hold-canvas";
 const SCORE_AREA_ID = "score-area";
 
 const DROP_INTERVAL = 1000;
-
-const BLOCK_SIZE = 32;
 const NEXT_AREA_SIZE = 160;
-const COLS_COUNT = 10;
-const ROWS_COUNT = 20;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 
 
-const CLOCKWISE = 1;
-const ANTICLOCKWISE = 2;
+module.exports.CLOCKWISE = 1;
+module.exports.ANTICLOCKWISE = 2;
 
 
 /**
