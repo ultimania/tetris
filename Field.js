@@ -1,10 +1,12 @@
-module.exports.COLS_COUNT = 10;
-module.exports.ROWS_COUNT = 20;
+'use strict';
+
+export const COLS_COUNT = 10;
+export const ROWS_COUNT = 20;
 
 /**
  * a class of Field
  */
-module.exports = class Field {
+export class Field {
     /**
      * ctor
      */

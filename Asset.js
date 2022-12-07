@@ -1,3 +1,5 @@
+'use strict';
+
 const BLOCK_SOURCES = [
     "images/block-0.png",
     "images/block-1.png",
@@ -12,7 +14,7 @@ const BLOCK_SOURCES = [
  *  a class of managing assets
  *  This class is initialized at the start of the game.
  */
-module.exports = class Asset {
+export class Asset {
     // for block image array
     static blockImages = []
 

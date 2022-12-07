@@ -1,10 +1,13 @@
-const { COLS_COUNT, ROWS_COUNT } = require('./Field')
-module.exports.BLOCK_SIZE = 32;
+'use strict';
+
+import { COLS_COUNT, ROWS_COUNT } from './Field.js';
+import { Asset } from "./Asset.js";
+export const BLOCK_SIZE = 32;
 
 /**
  * a class of Mino's or Field's Block
  */
-module.exports = class Block {
+export class Block {
     /**
      * ctor
      * the coordinates from base point

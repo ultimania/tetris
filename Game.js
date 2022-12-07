@@ -1,13 +1,20 @@
-const Field = require('./Field')
-const Mino = require('./Mino')
+'use strict';
 
-const {BLOCK_SIZE} = require('./Block')
-const {COLS_COUNT, ROWS_COUNT} = require('./Field')
+import { Field, COLS_COUNT, ROWS_COUNT } from './Field.js';
+import { Mino } from './Mino.js';
+import { BLOCK_SIZE } from './Block.js';
 
 const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
 const HOLD_CANVAS_ID = "hold-canvas";
 const SCORE_AREA_ID = "score-area";
+
+const KEY_LEFT = 37;
+const KEY_RIGHT = 39;
+const KEY_DOWN = 40;
+const KEY_CTRL = 17;
+const KEY_SPACE = 32;
+const KEY_SHIFT = 16;
 
 const DROP_INTERVAL = 1000;
 const NEXT_AREA_SIZE = 160;
@@ -15,15 +22,15 @@ const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 
 
-module.exports.CLOCKWISE = 1;
-module.exports.ANTICLOCKWISE = 2;
+export const CLOCKWISE = 1;
+export const ANTICLOCKWISE = 2;
 
 
 /**
  * a class of Game
  * This is Main Class for this app
  */
-module.exports = class Game {
+export class Game {
     /**
      * ctor
      * init canvas objects
