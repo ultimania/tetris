@@ -42,7 +42,6 @@ export class Game {
         this.initNextCanvas();
         this.initHoldCanvas();
         this.initScoreArea();
-        this.drawTetrisEffect();
     }
 
     /**
