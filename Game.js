@@ -147,10 +147,20 @@ export class Game {
                 e.y += this.mino.y
             })
             this.field.blocks = this.field.blocks.concat(this.mino.blocks)
-            this.score += this.field.checkLine() * 100;
+            this.score += this.calcEarnedPoints(this.field.checkLAndCleardine())
             this.popMino()
         }
         this.drawAll();
+    }
+
+    /**
+     * calclate earned points from cleard block lines
+     * 
+     * @param {*} cleardRowsCount 
+     * @returns earned points
+     */
+    calcEarnedPoints(cleardRowsCount){
+        return cleardRowsCount * 100;
     }
 
     /**

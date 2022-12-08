@@ -27,7 +27,7 @@ export class Field {
      * check to see if the blocks are lined up horizontally
      * return number of cleard line
      */
-    checkLine() {
+    checkLAndCleardine() {
         var count = 0;
         for (var r = 0; r < ROWS_COUNT; r++) {
             var c = this.blocks.filter(block => block.y === r).length
