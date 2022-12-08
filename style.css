@@ -45,14 +45,14 @@
     text-align: center;
 }
 
-#howto-area th{
-    border:solid 5px white;
+#howto-area th {
+    border: solid 5px white;
     padding: 10px;
     background: #d7986e;
 }
 
-#howto-area td{
-    border:solid 5px white;
+#howto-area td {
+    border: solid 5px white;
     padding: 10px;
     background: #6e8fd7;
 }
@@ -77,4 +77,19 @@
 
 #start-btn:hover {
     background-position: right center;
+}
+
+#tetris-text {
+    position: absolute;
+    top: 390px;
+    left: 600px;
+    display: inline-block;
+    opacity: 0.0;
+}
+
+.gradation {
+    background: linear-gradient(90deg, #4158D0, #C850C0 30%, #FFCC70);
+    background: -webkit-linear-gradient(0deg, #4158D0, #C850C0 30%, #FFCC70);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }

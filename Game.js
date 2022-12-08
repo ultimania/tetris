@@ -8,6 +8,7 @@ const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
 const HOLD_CANVAS_ID = "hold-canvas";
 const SCORE_AREA_ID = "score-area";
+const TETRIS_TEXT_ID = "tetris-text";
 
 const KEY_LEFT = 37;
 const KEY_RIGHT = 39;
@@ -15,6 +16,7 @@ const KEY_DOWN = 40;
 const KEY_CTRL = 17;
 const KEY_SPACE = 32;
 const KEY_SHIFT = 16;
+const TETRIS_ROWS = 4;
 
 const DROP_INTERVAL = 1000;
 const NEXT_AREA_SIZE = 160;
@@ -40,6 +42,7 @@ export class Game {
         this.initNextCanvas();
         this.initHoldCanvas();
         this.initScoreArea();
+        this.drawTetrisEffect();
     }
 
     /**
@@ -82,6 +85,8 @@ export class Game {
         this.score = 0;
         this.scoreArea = document.getElementById(SCORE_AREA_ID);
         this.scoreArea.textContent = String(this.score);
+        this.tetrisText = document.getElementById(TETRIS_TEXT_ID);
+        this.tetrisText.style.opacity = 0.0;
     }
 
     /**
@@ -160,7 +165,37 @@ export class Game {
      * @returns earned points
      */
     calcEarnedPoints(cleardRowsCount){
+        if(cleardRowsCount == TETRIS_ROWS){
+            this.drawTetrisEffect();
+            return cleardRowsCount * 500;
+        }
         return cleardRowsCount * 100;
+    }
+
+    /**
+     * draw effection of tetris text
+     */
+    drawTetrisEffect(){
+        this.tetrisText.animate(
+            [
+                {opacity: 1},
+                {opacity: 0}
+            ],
+            {
+                duration: 4000,
+                fill: 'forwards'
+            }
+        );
+        this.scoreArea.animate(
+            [
+                {color: 'red'},
+                {color: 'black'}
+            ],
+            {
+                duration: 4000,
+                fill: 'forwards'
+            }
+        )
     }
 
     /**
