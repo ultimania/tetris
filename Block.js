@@ -23,7 +23,9 @@ export class Block {
         this.y = y
 
         // if you do not draw, you do not need to specify type
-        if (type >= 0) this.setType(type)
+        if (type >= 0) {
+            this.setType(type)
+        }
     }
 
     setType(type) {

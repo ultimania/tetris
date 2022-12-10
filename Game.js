@@ -23,6 +23,7 @@ const NEXT_AREA_SIZE = 160;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 
+const MINO_TYPES = [0, 1, 2, 3, 4, 5, 6];
 
 export const CLOCKWISE = 1;
 export const ANTICLOCKWISE = 2;
@@ -93,9 +94,8 @@ export class Game {
      */
     start() {
         this.field = new Field()
-
+        this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
         this.popMino()
-
         this.drawAll()
 
         // execute drop mino processing every specified time
@@ -106,12 +106,31 @@ export class Game {
     }
 
     /**
+     * Random shuffling of array elements 
+     * 
+     * @param {*} orgArray original array object
+     * @return shuffled array object
+     */
+    shuffleArray(orgArray) {
+        // copy orgArray
+        let array = orgArray.concat();
+        // shuffle elements
+        for (var i = (array.length - 1); 0 < i; i--) {
+            var r = Math.floor(Math.random() * (i + 1));
+            var tmp = array[i];
+            array[i] = array[r];
+            array[r] = tmp;
+        }
+        return array;
+    }
+
+    /**
      *  generate and load next mino
      */
     popMino() {
-        this.mino = this.nextMino ?? new Mino()
+        this.mino = this.nextMino ?? new Mino(this.determineMinoType())
         this.mino.spawn()
-        this.nextMino = new Mino()
+        this.nextMino = new Mino(this.determineMinoType())
         // reset holding
         this.holding = false
 
@@ -121,6 +140,19 @@ export class Game {
             clearInterval(this.timer)
             alert("GameOver")
         }
+    }
+
+    /**
+     * determine mino type
+     * 
+     * @returns mino type number
+     */
+    determineMinoType() {
+        if(this.minoTypeQueue.length == 0){
+            // init mino type queue
+            this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
+        }
+        return this.minoTypeQueue.pop();
     }
 
     /**
@@ -163,8 +195,8 @@ export class Game {
      * @param {*} cleardRowsCount 
      * @returns earned points
      */
-    calcEarnedPoints(cleardRowsCount){
-        if(cleardRowsCount == TETRIS_ROWS){
+    calcEarnedPoints(cleardRowsCount) {
+        if (cleardRowsCount == TETRIS_ROWS) {
             this.drawTetrisEffect();
             return cleardRowsCount * 500;
         }
@@ -174,11 +206,11 @@ export class Game {
     /**
      * draw effection of tetris text
      */
-    drawTetrisEffect(){
+    drawTetrisEffect() {
         this.tetrisText.animate(
             [
-                {opacity: 1},
-                {opacity: 0}
+                { opacity: 1 },
+                { opacity: 0 }
             ],
             {
                 duration: 4000,
@@ -187,8 +219,8 @@ export class Game {
         );
         this.scoreArea.animate(
             [
-                {color: 'red'},
-                {color: 'black'}
+                { color: 'red' },
+                { color: 'black' }
             ],
             {
                 duration: 4000,

@@ -21,21 +21,26 @@ export class Asset {
     /**
      * initializing
      * 
-     * @param {*} callback functions that are processed after initialization.
      */
-    static init(callback) {
+    static async init(callback) {
+        
         let loadCnt = 0
-        for (let i = 0; i <= 6; i++) {
-            let img = new Image();
-            img.src = BLOCK_SOURCES[i];
-            img.onload = function () {
-                loadCnt++
-                Asset.blockImages.push(img)
+        for (let i = 0; i < BLOCK_SOURCES.length; i++) {
+            let img = null;
+            var promise = new Promise(async resolve=>{
+                img = new Image();
+                img.src = BLOCK_SOURCES[i];
+                img.onload = function () {
+                    loadCnt++;
+                    if (loadCnt == BLOCK_SOURCES.length - 1 && callback) {
+                        callback();
+                    }
+                    resolve();
+                };
+            })
 
-                if (loadCnt >= BLOCK_SOURCES.length && callback) {
-                    callback()
-                }
-            }
+            await promise;
+            Asset.blockImages.push(img);
         }
     }
 }
