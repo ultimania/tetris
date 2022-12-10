@@ -11,6 +11,7 @@ const SCORE_AREA_ID = "score-area";
 const TETRIS_TEXT_ID = "tetris-text";
 
 const KEY_LEFT = 37;
+const KEY_UP = 38;
 const KEY_RIGHT = 39;
 const KEY_DOWN = 40;
 const KEY_CTRL = 17;
@@ -148,7 +149,7 @@ export class Game {
      * @returns mino type number
      */
     determineMinoType() {
-        if(this.minoTypeQueue.length == 0){
+        if (this.minoTypeQueue.length == 0) {
             // init mino type queue
             this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
         }
@@ -186,6 +187,24 @@ export class Game {
             this.score += this.calcEarnedPoints(this.field.checkLAndCleardine())
             this.popMino()
         }
+        this.drawAll();
+    }
+
+    /**
+     * execute hard-drop
+     */
+    execHardDrop() {
+        // Drop minos whenever possible
+        while (this.valid(0, 1)) {
+            this.mino.y++;
+        }
+        this.mino.blocks.forEach(e => {
+            e.x += this.mino.x
+            e.y += this.mino.y;
+        })
+        this.field.blocks = this.field.blocks.concat(this.mino.blocks);
+        this.score += this.calcEarnedPoints(this.field.checkLAndCleardine());
+        this.popMino();
         this.drawAll();
     }
 
@@ -280,6 +299,9 @@ export class Game {
                     if (this.valid(-1, 0)) {
                         this.mino.x--;
                     }
+                    break;
+                case KEY_UP:
+                    this.execHardDrop();
                     break;
                 case KEY_RIGHT:
                     if (this.valid(1, 0)) {
