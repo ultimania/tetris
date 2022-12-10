@@ -8,8 +8,9 @@ import { CLOCKWISE, ANTICLOCKWISE } from './Game.js';
  * a class of Mino
  */
 export class Mino {
-    constructor() {
-        this.type = Math.floor(Math.random() * 7);
+    constructor(minoType) {
+        // this.type = Math.floor(Math.random() * 7);
+        this.type = minoType
         this.initBlocks()
     }
 
@@ -28,10 +29,10 @@ export class Mino {
             case 2: // T type
                 this.blocks = [new Block(1, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
                 break;
-            case 3: // J type
-                this.blocks = [new Block(1, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
+            case 3: // L type
+                this.blocks = [new Block(0, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
                 break;
-            case 4: // L type
+            case 4: // J type
                 this.blocks = [new Block(2, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
                 break;
             case 5: // S type

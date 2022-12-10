@@ -4,6 +4,10 @@
     width: 700px;
 }
 
+#main-canvas {
+    background-color: #D9D9D9;
+}
+
 #next-canvas {
     position: absolute;
     top: 0;
@@ -90,5 +94,6 @@
 .gradation {
     background: linear-gradient(90deg, #4158D0, #C850C0 30%, #FFCC70);
     background: -webkit-linear-gradient(0deg, #4158D0, #C850C0 30%, #FFCC70);
+    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
