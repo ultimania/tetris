@@ -7,19 +7,19 @@
 #next-canvas {
     position: absolute;
     top: 0;
-    left: 400px;
+    left: 380px;
 }
 
 #hold-canvas {
     position: absolute;
     top: 200px;
-    left: 400px;
+    left: 380px;
 }
 
 #score-area {
     position: absolute;
     top: 400px;
-    left: 400px;
+    left: 380px;
     display: inline-block;
     width: 150px;
     height: 40px;
@@ -31,8 +31,8 @@
 
 #howto-area {
     position: absolute;
-    top: 700px;
-    left: 0px;
+    top: 0px;
+    left: 600px;
     display: inline-block;
     text-align: right;
 }
@@ -59,7 +59,7 @@
 
 #start-btn {
     position: absolute;
-    left: 400px;
+    left: 380px;
     bottom: 0;
     width: 180px;
     text-align: center;
@@ -90,6 +90,5 @@
 .gradation {
     background: linear-gradient(90deg, #4158D0, #C850C0 30%, #FFCC70);
     background: -webkit-linear-gradient(0deg, #4158D0, #C850C0 30%, #FFCC70);
-    -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
 }
