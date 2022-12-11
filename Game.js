@@ -101,7 +101,11 @@ export class Game {
 
         // execute drop mino processing every specified time
         clearInterval(this.timer)
-        this.timer = setInterval(() => this.dropMino(), DROP_INTERVAL);
+        this.timer = setInterval(() => {
+            if (!this.minoGrounded) {
+                this.dropMino();
+            }
+        }, DROP_INTERVAL);
 
         this.setKeyEvent()
     }
@@ -187,6 +191,20 @@ export class Game {
             this.popMino()
         }
         this.drawAll();
+    }
+
+    pause() {
+        if (!this.paused) {
+            clearInterval(this.timer);
+            this.paused = true;
+        }
+    }
+
+    restart() {
+        if (this.paused) {
+            this.timer = setInterval(() => this.dropMino(), DROP_INTERVAL);
+            this.paused = false;
+        }
     }
 
     /**
@@ -289,6 +307,31 @@ export class Game {
     }
 
     /**
+     * rotate this mino
+     */
+    rotateMino(rot) {
+        if (!this.valid(0, 1)) {
+            this.minoGrounded = true;
+            window.setTimeout(() => this.minoGrounded = false, 1000);
+        }
+        loopout: for (var i = 0; i < 2; i++) {
+            for (var j = 0; j < 2; j++) {
+                if (this.valid(j, i, rot)) {
+                    this.mino.rotate(rot);
+                    this.mino.x = this.mino.x + j;
+                    this.mino.y = this.mino.y + i;
+                    break loopout;
+                } else if (this.valid(-j, i, rot)) {
+                    this.mino.rotate(rot);
+                    this.mino.x = this.mino.x - j;
+                    this.mino.y = this.mino.y + i;
+                    break loopout;
+                }
+            }
+        }
+    }
+
+    /**
      * the key press event handler
      */
     setKeyEvent() {
@@ -312,47 +355,11 @@ export class Game {
                         this.mino.y++;
                     }
                     break;
-                case KEY_CTRL: // clockwise
-                    if (this.valid(0, 0, CLOCKWISE)) {
-                        this.mino.rotate(CLOCKWISE);
-                    }
-                    else if (this.valid(-1, 0, CLOCKWISE)) {
-                        this.mino.rotate(CLOCKWISE);
-                        this.mino.x--;
-                    }
-                    else if (this.valid(1, 0, CLOCKWISE)) {
-                        this.mino.rotate(CLOCKWISE);
-                        this.mino.x++;
-                    }
-                    else if (this.valid(-2, 0, CLOCKWISE)) {
-                        this.mino.rotate(CLOCKWISE);
-                        this.mino.x = this.mino.x - 2;
-                    }
-                    else if (this.valid(2, 0, CLOCKWISE)) {
-                        this.mino.rotate(CLOCKWISE);
-                        this.mino.x = this.mino.x + 2;
-                    }
+                case KEY_CTRL: // anticlockwise
+                    this.rotateMino(ANTICLOCKWISE);
                     break;
-                case KEY_SPACE: // anticlockwise
-                    if (this.valid(0, 0, ANTICLOCKWISE)) {
-                        this.mino.rotate(ANTICLOCKWISE);
-                    }
-                    else if (this.valid(-1, 0, ANTICLOCKWISE)) {
-                        this.mino.rotate(ANTICLOCKWISE);
-                        this.mino.x--;
-                    }
-                    else if (this.valid(1, 0, ANTICLOCKWISE)) {
-                        this.mino.rotate(ANTICLOCKWISE);
-                        this.mino.x++;
-                    }
-                    else if (this.valid(-2, 0, ANTICLOCKWISE)) {
-                        this.mino.rotate(ANTICLOCKWISE);
-                        this.mino.x = this.mino.x - 2;
-                    }
-                    else if (this.valid(2, 0, ANTICLOCKWISE)) {
-                        this.mino.rotate(ANTICLOCKWISE);
-                        this.mino.x = this.mino.x + 2;
-                    }
+                case KEY_SPACE: // clockwise
+                    this.rotateMino(CLOCKWISE);
                     break;
                 case KEY_SHIFT: // hold
                     this.hold();

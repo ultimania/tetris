@@ -11,6 +11,7 @@ export class Mino {
     constructor(minoType) {
         // this.type = Math.floor(Math.random() * 7);
         this.type = minoType
+        this.maxWidth = this.type == 0 ? 3 : 2;
         this.initBlocks()
     }
 
@@ -91,15 +92,15 @@ export class Mino {
     rotate(direction = CLOCKWISE) {
         if (direction == CLOCKWISE) {
             this.blocks.forEach(block => {
-                let oldX = block.x
-                block.x = block.y
-                block.y = 3 - oldX
+                let oldY = block.y
+                block.y = block.x
+                block.x = this.maxWidth - oldY
             });
         } else {
             this.blocks.forEach(block => {
-                let oldY = block.y
-                block.y = block.x
-                block.x = 3 - oldY
+                let oldX = block.x
+                block.x = block.y
+                block.y = this.maxWidth - oldX
             });
         }
     }
@@ -119,13 +120,13 @@ export class Mino {
         })
         newBlocks.forEach(block => {
             if (rot == CLOCKWISE) {
-                let oldX = block.x
-                block.x = block.y
-                block.y = 3 - oldX
-            } else if (rot == ANTICLOCKWISE) {
                 let oldY = block.y
                 block.y = block.x
-                block.x = 3 - oldY
+                block.x = this.maxWidth - oldY
+            } else if (rot == ANTICLOCKWISE) {
+                let oldX = block.x
+                block.x = block.y
+                block.y = this.maxWidth - oldX
             }
 
             if (moveX || moveY) {
