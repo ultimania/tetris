@@ -132,8 +132,7 @@ export class Game {
         this.mino = this.nextMino ?? new Mino(this.determineMinoType())
         this.mino.spawn()
         this.nextMino = new Mino(this.determineMinoType())
-        // reset holding
-        this.holding = false
+        this.holdProhibition = false
 
         // judge the game is over
         if (!this.valid(0, 1)) {
@@ -252,17 +251,17 @@ export class Game {
      *  hold mino processing
      */
     hold() {
-        if (!this.holding) {
+        if (!this.holdProhibition) {
             if (!this.holdMino) {
-                this.holdMino = this.mino;
+                this.holdMino = new Mino(this.mino.type);
                 this.popMino();
             } else {
                 var tempMino = this.holdMino;
-                this.holdMino = this.mino;
+                this.holdMino = new Mino(this.mino.type);
                 this.mino = tempMino;
                 this.mino.spawn();
             }
-            this.holding = true;
+            this.holdProhibition = true;
             this.holdCtx.clearRect(0, 0, NEXT_AREA_SIZE, NEXT_AREA_SIZE)
             this.holdMino.drawHold(this.holdCtx)
         }
