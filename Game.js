@@ -97,6 +97,7 @@ export class Game {
         this.holdMino = null;
         this.holdCtx.clearRect(0, 0, NEXT_AREA_SIZE, NEXT_AREA_SIZE)
         this.score = 0;
+        this.paused = false;
         this.field = new Field()
         this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
         
@@ -110,7 +111,6 @@ export class Game {
                 this.dropMino();
             }
         }, DROP_INTERVAL);
-
         this.setKeyEvent()
     }
 
@@ -207,6 +207,7 @@ export class Game {
             clearInterval(this.timer);
             this.paused = true;
         }
+        document.onkeydown = null;
     }
 
     restart() {
@@ -214,6 +215,7 @@ export class Game {
             this.timer = setInterval(() => this.dropMino(), DROP_INTERVAL);
             this.paused = false;
         }
+        this.setKeyEvent();
     }
 
     /**
