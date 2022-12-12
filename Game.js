@@ -94,8 +94,12 @@ export class Game {
      * start game
      */
     start() {
+        this.holdMino = null;
+        this.holdCtx.clearRect(0, 0, NEXT_AREA_SIZE, NEXT_AREA_SIZE)
+        this.score = 0;
         this.field = new Field()
         this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
+        
         this.popMino()
         this.drawAll()
 
@@ -140,10 +144,15 @@ export class Game {
 
         // judge the game is over
         if (!this.valid(0, 1)) {
-            this.drawAll()
-            clearInterval(this.timer)
-            alert("GameOver")
+            this.gameover();
         }
+    }
+
+    gameover(){
+        this.drawAll()
+        clearInterval(this.timer)
+        alert(`GameOver: Your score is ${this.score}`);
+
     }
 
     /**
