@@ -1,17 +1,17 @@
 'use strict';
 
 import { COLS_COUNT } from './Field.js';
-import {Block} from'./Block.js'
+import { Block } from './Block.js'
 import { CLOCKWISE, ANTICLOCKWISE } from './Game.js';
 
+const MAX_WIDTH = [3, 3, 2, 2, 2, 2, 2];
 /**
  * a class of Mino
  */
 export class Mino {
     constructor(minoType) {
-        // this.type = Math.floor(Math.random() * 7);
         this.type = minoType
-        this.maxWidth = this.type == 0 ? 3 : 2;
+        this.maxWidth = MAX_WIDTH[this.type];
         this.initBlocks()
     }
 
@@ -28,7 +28,7 @@ export class Mino {
                 this.blocks = [new Block(1, 1, t), new Block(2, 1, t), new Block(1, 2, t), new Block(2, 2, t)]
                 break;
             case 2: // T type
-                this.blocks = [new Block(1, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
+                this.blocks = [new Block(1, 0, t), new Block(0, 1, t), new Block(1, 1, t), new Block(2, 1, t)]
                 break;
             case 3: // L type
                 this.blocks = [new Block(0, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
@@ -50,7 +50,7 @@ export class Mino {
      */
     spawn() {
         this.x = COLS_COUNT / 2 - 2
-        this.y = -3
+        this.y = -2
     }
 
     /**
