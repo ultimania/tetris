@@ -31,10 +31,10 @@ export class Mino {
                 this.blocks = [new Block(1, 0, t), new Block(0, 1, t), new Block(1, 1, t), new Block(2, 1, t)]
                 break;
             case 3: // L type
-                this.blocks = [new Block(0, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
+                this.blocks = [new Block(0, 0, t), new Block(0, 1, t), new Block(1, 1, t), new Block(2, 1, t)]
                 break;
             case 4: // J type
-                this.blocks = [new Block(2, 1, t), new Block(0, 2, t), new Block(1, 2, t), new Block(2, 2, t)]
+                this.blocks = [new Block(2, 0, t), new Block(0, 1, t), new Block(1, 1, t), new Block(2, 1, t)]
                 break;
             case 5: // S type
                 this.blocks = [new Block(1, 1, t), new Block(2, 1, t), new Block(0, 2, t), new Block(1, 2, t)]
