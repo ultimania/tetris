@@ -104,8 +104,8 @@
 
 #tetris-text {
     position: absolute;
-    top: 390px;
-    left: 600px;
+    top: 450px;
+    left: 400px;
     display: inline-block;
     opacity: 0.0;
 }

@@ -21,6 +21,7 @@ const TETRIS_ROWS = 4;
 
 const DROP_INTERVAL = 1000;
 const NEXT_AREA_SIZE = 160;
+const ALLOWD_ROTATION_COUNT = 15;
 const SCREEN_WIDTH = COLS_COUNT * BLOCK_SIZE;
 const SCREEN_HEIGHT = ROWS_COUNT * BLOCK_SIZE;
 
@@ -100,7 +101,7 @@ export class Game {
         this.paused = false;
         this.field = new Field()
         this.minoTypeQueue = this.shuffleArray(MINO_TYPES);
-        
+
         this.popMino()
         this.drawAll()
 
@@ -141,6 +142,7 @@ export class Game {
         this.mino.spawn()
         this.nextMino = new Mino(this.determineMinoType())
         this.holdProhibition = false
+        this.rotationCount = 0;
 
         // judge the game is over
         if (!this.valid(0, 1)) {
@@ -148,7 +150,7 @@ export class Game {
         }
     }
 
-    gameover(){
+    gameover() {
         this.drawAll()
         clearInterval(this.timer)
         alert(`GameOver: Your score is ${this.score}`);
@@ -321,25 +323,24 @@ export class Game {
      * rotate this mino
      */
     rotateMino(rot) {
-        if (!this.valid(0, 1)) {
-            this.minoGrounded = true;
-            window.setTimeout(() => this.minoGrounded = false, 1000);
+        if (!this.valid(0, 1) && this.rotationCount < ALLOWD_ROTATION_COUNT) {
+            this.pause();
+            this.rotationCount++;
+        }else{
+            this.minoGrounded = false;
         }
         loopout: for (var i = 0; i < 2; i++) {
-            for (var j = 0; j < 2; j++) {
-                if (this.valid(j, i, rot)) {
-                    this.mino.rotate(rot);
-                    this.mino.x = this.mino.x + j;
-                    this.mino.y = this.mino.y + i;
-                    break loopout;
-                } else if (this.valid(-j, i, rot)) {
-                    this.mino.rotate(rot);
-                    this.mino.x = this.mino.x - j;
-                    this.mino.y = this.mino.y + i;
-                    break loopout;
-                }
+            if (this.valid(i, 0, rot)) {
+                this.mino.rotate(rot);
+                this.mino.x = this.mino.x + i;
+                break loopout;
+            } else if (this.valid(-i, 0, rot)) {
+                this.mino.rotate(rot);
+                this.mino.x = this.mino.x - i;
+                break loopout;
             }
         }
+        this.restart();
     }
 
     /**
