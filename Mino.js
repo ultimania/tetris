@@ -140,4 +140,16 @@ export class Mino {
 
         return newBlocks
     }
+
+    /**
+     * return this Mino's corner blocks
+     * @returns 
+     */
+    getCornerBlocks() {
+        var leftUp = [this.x , this.y];
+        var leftDown = [this.x, this.y + 2];
+        var rightUp = [this.x + 2, this.y];
+        var rightDown = [this.x + 2, this.y + 2];
+        return [leftUp, leftDown, rightUp, rightDown];
+    }
 }
