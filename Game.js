@@ -272,7 +272,7 @@ export class Game {
      * draw effection of Tspin text
      */
      drawTspinEffect() {
-        this.effectText.innerText = "TSPIN";
+        this.effectText.innerText = "TSPIN!!";
         this.effectText.animate(
             [
                 { opacity: 1 },
@@ -299,7 +299,7 @@ export class Game {
      * draw effection of tetris text
      */
     drawTetrisEffect() {
-        this.effectText.innerText = "TETRIS";
+        this.effectText.innerText = "TETRIS!!";
         this.effectText.animate(
             [
                 { opacity: 1 },
