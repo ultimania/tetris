@@ -8,7 +8,7 @@ const MAIN_CANVAS_ID = "main-canvas";
 const NEXT_CANVAS_ID = "next-canvas";
 const HOLD_CANVAS_ID = "hold-canvas";
 const SCORE_AREA_ID = "score-area";
-const TETRIS_TEXT_ID = "tetris-text";
+const EFFECT_TEXT_ID = "effect-text";
 
 const KEY_LEFT = 37;
 const KEY_UP = 38;
@@ -87,8 +87,8 @@ export class Game {
         this.score = 0;
         this.scoreArea = document.getElementById(SCORE_AREA_ID);
         this.scoreArea.textContent = String(this.score);
-        this.tetrisText = document.getElementById(TETRIS_TEXT_ID);
-        this.tetrisText.style.opacity = 0.0;
+        this.effectText = document.getElementById(EFFECT_TEXT_ID);
+        this.effectText.style.opacity = 0.0;
     }
 
     /**
@@ -154,7 +154,6 @@ export class Game {
         this.drawAll()
         clearInterval(this.timer)
         alert(`GameOver: Your score is ${this.score}`);
-
     }
 
     /**
@@ -204,6 +203,17 @@ export class Game {
         this.drawAll();
     }
 
+    isTspin() {
+        if (this.mino.type == 2 && this.rotationCount > 0) {
+            var checkBlocks = this.mino.getCornerBlocks();
+            return checkBlocks.map((block) => this.field.has(block[0], block[1])).filter((block) => block == false).length >= 3
+        }
+        return false;
+    }
+
+    /**
+     * pause mode
+     */
     pause() {
         if (!this.paused) {
             clearInterval(this.timer);
@@ -212,6 +222,9 @@ export class Game {
         document.onkeydown = null;
     }
 
+    /**
+     * return game mode
+     */
     restart() {
         if (this.paused) {
             this.timer = setInterval(() => this.dropMino(), DROP_INTERVAL);
@@ -245,7 +258,10 @@ export class Game {
      * @returns earned points
      */
     calcEarnedPoints(cleardRowsCount) {
-        if (cleardRowsCount == TETRIS_ROWS) {
+        if (this.isTspin()) {
+            this.drawTspinEffect();
+            return cleardRowsCount * 1000;
+        } else if (cleardRowsCount == TETRIS_ROWS) {
             this.drawTetrisEffect();
             return cleardRowsCount * 500;
         }
@@ -253,10 +269,38 @@ export class Game {
     }
 
     /**
+     * draw effection of Tspin text
+     */
+     drawTspinEffect() {
+        this.effectText.innerText = "TSPIN!!";
+        this.effectText.animate(
+            [
+                { opacity: 1 },
+                { opacity: 0 }
+            ],
+            {
+                duration: 4000,
+                fill: 'forwards'
+            }
+        );
+        this.scoreArea.animate(
+            [
+                { color: 'red' },
+                { color: 'black' }
+            ],
+            {
+                duration: 4000,
+                fill: 'forwards'
+            }
+        )
+    }
+
+    /**
      * draw effection of tetris text
      */
     drawTetrisEffect() {
-        this.tetrisText.animate(
+        this.effectText.innerText = "TETRIS!!";
+        this.effectText.animate(
             [
                 { opacity: 1 },
                 { opacity: 0 }
@@ -326,7 +370,7 @@ export class Game {
         if (!this.valid(0, 1) && this.rotationCount < ALLOWD_ROTATION_COUNT) {
             this.pause();
             this.rotationCount++;
-        }else{
+        } else {
             this.minoGrounded = false;
         }
         loopout: for (var i = 0; i < 2; i++) {
