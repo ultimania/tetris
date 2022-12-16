@@ -77,6 +77,18 @@ export class Block {
                 offsetX = 0.5
                 offsetY = 0.5
                 break;
+            case 2:
+                offsetX = 1
+                offsetY = 1.5
+                break;
+            case 3:
+                offsetX = 1
+                offsetY = 1.5
+                break;
+            case 4:
+                offsetX = 1
+                offsetY = 1.5
+                break;
             default:
                 offsetX = 1
                 offsetY = 0.5
@@ -109,6 +121,18 @@ export class Block {
             case 1:
                 offsetX = 0.5
                 offsetY = 0.5
+                break;
+            case 2:
+                offsetX = 1
+                offsetY = 1.5
+                break;
+            case 3:
+                offsetX = 1
+                offsetY = 1.5
+                break;
+            case 4:
+                offsetX = 1
+                offsetY = 1.5
                 break;
             default:
                 offsetX = 1
