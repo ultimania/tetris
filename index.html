@@ -10,12 +10,20 @@
 
 <body>
   <div id="container">
-    <canvas id="main-canvas"></canvas>
-    <canvas id="next-canvas"></canvas>
-    <canvas id="hold-canvas"></canvas>
+    <div id="main">
+      <canvas id="main-canvas"></canvas>
+    </div>
+    <div id="next">
+      <span class="canvas-title">NEXT</span>
+      <canvas id="next-canvas"></canvas>
+    </div>
+    <div id="hold">
+      <span class="canvas-title">HOLD</span>
+      <canvas id="hold-canvas"></canvas>
+    </div>
     <div>
       <label id="score-area"></label>
-      <h1 id="effect-text" class="gradation">TETRIS!</h1>  
+      <h1 id="effect-text" class="gradation"></h1>  
     </div>
     <div id="howto-area">
       <table>
