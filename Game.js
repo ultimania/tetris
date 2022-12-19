@@ -140,6 +140,11 @@ export class Game {
     popMino() {
         this.mino = this.nextMino ?? new Mino(this.determineMinoType())
         this.mino.spawn()
+
+        delete this.assistMino;
+        this.assistMino = new Mino(this.mino.type);
+        this.assist();
+
         this.nextMino = new Mino(this.determineMinoType())
         this.holdProhibition = false
         this.rotationCount = 0;
@@ -148,6 +153,12 @@ export class Game {
         if (!this.valid(0, 1)) {
             this.gameover();
         }
+    }
+
+    assist(){
+        this.assistMino.x = this.mino.x;
+        this.assistMino.y = this.mino.y;
+        this.ground(this.assistMino);
     }
 
     gameover() {
@@ -180,6 +191,7 @@ export class Game {
 
         this.nextMino.drawNext(this.nextCtx)
         this.mino.draw(this.mainCtx)
+        this.assistMino.draw(this.mainCtx)
         this.scoreArea.textContent = String(this.score);
     }
 
@@ -233,14 +245,18 @@ export class Game {
         this.setKeyEvent();
     }
 
+    ground(mino) {
+        // Drop minos whenever possible
+        while (this.valid(0, 1, undefined, mino)) {
+            mino.y++;
+        }
+    }
+
     /**
      * execute hard-drop
      */
     execHardDrop() {
-        // Drop minos whenever possible
-        while (this.valid(0, 1)) {
-            this.mino.y++;
-        }
+        this.ground(this.mino);
         this.mino.blocks.forEach(e => {
             e.x += this.mino.x
             e.y += this.mino.y;
@@ -271,7 +287,7 @@ export class Game {
     /**
      * draw effection of Tspin text
      */
-     drawTspinEffect() {
+    drawTspinEffect() {
         this.effectText.innerText = "TSPIN!!";
         this.effectText.animate(
             [
@@ -350,8 +366,8 @@ export class Game {
      * @param {*} rot  is rotate action
      * @returns 
      */
-    valid(moveX, moveY, rot = 0) {
-        let newBlocks = this.mino.getNewBlocks(moveX, moveY, rot)
+    valid(moveX, moveY, rot = 0, mino = this.mino) {
+        let newBlocks = mino.getNewBlocks(moveX, moveY, rot)
         return newBlocks.every(block => {
             return (
                 block.x >= 0 &&
@@ -377,10 +393,14 @@ export class Game {
             if (this.valid(i, 0, rot)) {
                 this.mino.rotate(rot);
                 this.mino.x = this.mino.x + i;
+                this.assistMino.rotate(rot);
+                this.assistMino.x = this.assistMino.x + i;
                 break loopout;
             } else if (this.valid(-i, 0, rot)) {
                 this.mino.rotate(rot);
                 this.mino.x = this.mino.x - i;
+                this.assistMino.rotate(rot);
+                this.assistMino.x = this.assistMino.x - i;
                 break loopout;
             }
         }
@@ -421,7 +441,8 @@ export class Game {
                     this.hold();
                     break;
             }
-            this.drawAll()
+            this.assist();
+            this.drawAll();
         }.bind(this)
     }
 }
