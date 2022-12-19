@@ -42,13 +42,14 @@ export class Block {
      * @param {*} offsetY 
      * @param {*} ctx 
      */
-    draw(offsetX = 0, offsetY = 0, ctx) {
+    draw(offsetX = 0, offsetY = 0, ctx, opacity) {
         let drawX = this.x + offsetX
         let drawY = this.y + offsetY
 
         // if the block's coordinates is out of canvs, it is not drawed
         if (drawX >= 0 && drawX < COLS_COUNT &&
             drawY >= 0 && drawY < ROWS_COUNT) {
+            ctx.globalAlpha = opacity;
             ctx.drawImage(
                 this.image,
                 drawX * BLOCK_SIZE,

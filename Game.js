@@ -155,7 +155,7 @@ export class Game {
         }
     }
 
-    assist(){
+    assist() {
         this.assistMino.x = this.mino.x;
         this.assistMino.y = this.mino.y;
         this.ground(this.assistMino);
@@ -191,7 +191,7 @@ export class Game {
 
         this.nextMino.drawNext(this.nextCtx)
         this.mino.draw(this.mainCtx)
-        this.assistMino.draw(this.mainCtx)
+        this.assistMino.draw(this.mainCtx, 0.3)
         this.scoreArea.textContent = String(this.score);
     }
 
@@ -351,6 +351,8 @@ export class Game {
                 this.holdMino = new Mino(this.mino.type);
                 this.mino = tempMino;
                 this.mino.spawn();
+                delete this.assistMino;
+                this.assistMino = new Mino(this.mino.type);
             }
             this.holdProhibition = true;
             this.holdCtx.clearRect(0, 0, NEXT_AREA_SIZE, NEXT_AREA_SIZE)

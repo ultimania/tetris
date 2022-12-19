@@ -58,9 +58,9 @@ export class Mino {
      * 
      * @param {*} ctx 
      */
-    draw(ctx) {
+    draw(ctx, opacity = 1.0) {
         this.blocks.forEach(block => {
-            block.draw(this.x, this.y, ctx)
+            block.draw(this.x, this.y, ctx, opacity)
         })
     }
 

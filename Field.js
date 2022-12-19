@@ -20,7 +20,7 @@ export class Field {
      * @param {*} ctx 
      */
     drawFixedBlocks(ctx) {
-        this.blocks.forEach(block => block.draw(0, 0, ctx))
+        this.blocks.forEach(block => block.draw(0, 0, ctx, 1.0))
     }
 
     /**
