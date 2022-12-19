@@ -58,9 +58,9 @@ export class Mino {
      * 
      * @param {*} ctx 
      */
-    draw(ctx) {
+    draw(ctx, opacity = 1.0) {
         this.blocks.forEach(block => {
-            block.draw(this.x, this.y, ctx)
+            block.draw(this.x, this.y, ctx, opacity)
         })
     }
 
@@ -146,7 +146,7 @@ export class Mino {
      * @returns 
      */
     getCornerBlocks() {
-        var leftUp = [this.x , this.y];
+        var leftUp = [this.x, this.y];
         var leftDown = [this.x, this.y + 2];
         var rightUp = [this.x + 2, this.y];
         var rightDown = [this.x + 2, this.y + 2];
